@@ -342,11 +342,3 @@ fun EditJokeDialog(
     )
 }
 
-// Preview function
-@Preview(showBackground = true)
-@Composable
-fun JokesScreenPreview() {
-    JokesApiClientTheme {
-        JokesScreen(viewModel = viewModel())
-    }
-}

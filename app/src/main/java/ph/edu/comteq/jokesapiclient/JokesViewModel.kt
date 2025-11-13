@@ -76,15 +76,19 @@ fun deleteJoke(id : Int){
 
     }
 
-    fun updateJoke(id: Int , setup: String ,punchline: String) {
-        viewModelScope.launch{
-            try{
-                val updateJoke = Joke (id = id, setup = setup, punchline = punchline)
-                api.updateJoke(id,updateJoke)
+    fun updateJoke(id: Int, setup: String, punchline: String){
+        viewModelScope.launch {
+            try {
+                val updatedJoke = Joke(id = id, setup = setup, punchline = punchline)
+                api.updateJoke(id, updatedJoke)
                 getJokes()
-            }catch (e: Exception){
-
+            } catch (e: Exception){
+                _uiState.value = JokesUiState.Error(
+                    "Failed to update joke: ${e.message ?: "Unknown error"}"
+                )
             }
         }
     }
+
+
 }
