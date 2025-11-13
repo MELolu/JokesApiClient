@@ -3,6 +3,7 @@ package ph.edu.comteq.jokesapiclient
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -53,6 +54,36 @@ class JokesViewModel: ViewModel() {
                 _uiState.value = JokesUiState.Error(
                     e.message ?: "Unknown error"
                 )
+            }
+        }
+    }
+
+
+fun deleteJoke(id : Int){
+    viewModelScope.launch {
+
+        try {
+            api.deleteJoke(id)
+            getJokes()
+
+        }catch (e: Exception){
+            _uiState.value = JokesUiState.Error(
+                "Failed to delete joke: ${e.message?: "Unknown error"}"
+
+                )
+            }
+        }
+
+    }
+
+    fun updateJoke(id: Int , setup: String ,punchline: String) {
+        viewModelScope.launch{
+            try{
+                val updateJoke = Joke (id = id, setup = setup, punchline = punchline)
+                api.updateJoke(id,updateJoke)
+                getJokes()
+            }catch (e: Exception){
+
             }
         }
     }
